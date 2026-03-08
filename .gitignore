@@ -1,0 +1,10 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+
+# Secrets
+appsettings.json
+appsettings.*.json
+!appsettings.example.json
