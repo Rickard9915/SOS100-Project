@@ -1,0 +1,33 @@
+@model SOS100_T7_BenefitsPortal.Models.CategoryFormModel
+
+@{
+    ViewData["Title"] = "Redigera kategori";
+}
+
+<div class="mb-3">
+    <a asp-action="Index" class="text-decoration-none">&larr; Tillbaka till kategorier</a>
+</div>
+
+<h1 class="mb-4">Redigera kategori</h1>
+
+<div style="max-width: 400px;">
+    <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+        @Html.AntiForgeryToken()
+        <input asp-for="Id" type="hidden" />
+
+        <div class="mb-4">
+            <label asp-for="Name" class="form-label">Namn</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger small"></span>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Spara ändringar</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Avbryt</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -1,0 +1,36 @@
+@model SOS100_T7_BenefitsPortal.Models.BenefitViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="mb-3">
+    <a asp-action="Index" class="text-decoration-none">&larr; Tillbaka till förmåner</a>
+</div>
+
+<div class="card shadow-sm" style="max-width: 600px;">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">@Model.Title</h4>
+        @if (!string.IsNullOrEmpty(Model.CategoryName))
+        {
+            <a asp-action="ByCategory" asp-route-id="@Model.CategoryId"
+               class="badge bg-secondary text-decoration-none fs-6">@Model.CategoryName</a>
+        }
+    </div>
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Beskrivning</dt>
+            <dd class="col-sm-8">@Model.Description</dd>
+
+            <dt class="col-sm-4">Värde</dt>
+            <dd class="col-sm-8 fs-5 fw-semibold text-success">@Model.Value.ToString("N0") kr</dd>
+
+            <dt class="col-sm-4">Kategori</dt>
+            <dd class="col-sm-8">@(Model.CategoryName is { Length: > 0 } name ? name : "-")</dd>
+        </dl>
+    </div>
+    <div class="card-footer bg-transparent d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Redigera</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Ta bort</a>
+    </div>
+</div>

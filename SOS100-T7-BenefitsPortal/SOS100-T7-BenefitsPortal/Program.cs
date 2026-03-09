@@ -1,7 +1,19 @@
+using SOS100_T7_BenefitsPortal.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHttpClient<BenefitService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5062/");
+});
+
+builder.Services.AddHttpClient<CategoryService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5062/");
+});
 
 var app = builder.Build();
 

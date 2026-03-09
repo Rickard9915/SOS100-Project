@@ -1,0 +1,25 @@
+@model SOS100_T7_BenefitsPortal.Models.CategoryViewModel
+
+@{
+    ViewData["Title"] = "Ta bort kategori";
+}
+
+<div class="mb-3">
+    <a asp-action="Index" class="text-decoration-none">&larr; Tillbaka till kategorier</a>
+</div>
+
+<h1 class="mb-4 text-danger">Ta bort kategori</h1>
+
+<div class="card border-danger shadow-sm" style="max-width: 400px;">
+    <div class="card-body">
+        <p class="mb-3">Är du säker på att du vill ta bort kategorin <strong>@Model.Name</strong>?</p>
+        <p class="text-muted small">Förmåner som tillhör denna kategori kan påverkas.</p>
+    </div>
+    <div class="card-footer bg-transparent d-flex gap-2">
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger">Ja, ta bort</button>
+        </form>
+        <a asp-action="Index" class="btn btn-outline-secondary">Avbryt</a>
+    </div>
+</div>
