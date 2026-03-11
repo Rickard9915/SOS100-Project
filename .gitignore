@@ -8,3 +8,5 @@ riderModule.iml
 appsettings.json
 appsettings.*.json
 !appsettings.example.jsonBenefitsService/benefits.db
+.DS_Store
+.idea/
