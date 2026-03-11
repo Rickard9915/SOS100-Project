@@ -8,12 +8,27 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/SOS100_T7_BenefitsPortal.styles.css" asp-append-version="true"/>
+    <style>
+        .nav-btn {
+            border: 1px solid rgba(255, 255, 255, 0.55) !important;
+            border-radius: 5px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+            margin: 2px 3px;
+            padding: 4px 12px !important;
+            transition: background-color 0.15s ease, border-color 0.15s ease;
+        }
+        .nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.18) !important;
+            border-color: rgba(255, 255, 255, 0.9) !important;
+        }
+    </style>
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3"
+         style="background-color: #2E7D32;">
         <div class="container-fluid">
-            <a class="navbar-brand fw-semibold" asp-area="" asp-controller="Home" asp-action="Index">Medarbetarförmånsportal</a>
+            <a class="navbar-brand fw-semibold text-white" asp-area="" asp-controller="Home" asp-action="Index">Medarbetarförmånsportal</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -21,16 +36,24 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Benefits" asp-action="Index">Förmåner</a>
+                        <a class="nav-link text-white nav-btn" asp-controller="Benefits" asp-action="Index">Förmåner</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-secondary disabled" aria-disabled="true">Ansökningar</a>
+                        <a class="nav-link text-white nav-btn" asp-controller="Applications" asp-action="Index">Ansökningar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-secondary disabled" aria-disabled="true">Meddelanden</a>
+                        <a class="nav-link text-white nav-btn" asp-controller="Notifications" asp-action="Index">Meddelanden</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-secondary disabled" aria-disabled="true">Min profil</a>
+                        <a class="nav-link text-white nav-btn" asp-controller="Profile" asp-action="Index">Min profil</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white nav-btn" asp-controller="Account" asp-action="Login">Logga in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white nav-btn" asp-controller="Account" asp-action="Logout">Logga ut</a>
                     </li>
                 </ul>
             </div>

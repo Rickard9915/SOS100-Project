@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "Ansök om förmån";
+    var benefitId = ViewBag.BenefitId as int?;
+}
+
+<div class="mb-3">
+    @if (benefitId.HasValue)
+    {
+        <a asp-controller="Benefits" asp-action="Details" asp-route-id="@benefitId"
+           class="text-decoration-none">&larr; Tillbaka till förmånen</a>
+    }
+    else
+    {
+        <a asp-action="Index" class="text-decoration-none">&larr; Tillbaka till ansökningar</a>
+    }
+</div>
+
+<div class="text-center py-5">
+    <div class="mb-4">
+        <span style="font-size: 4rem; line-height: 1;">&#128203;</span>
+    </div>
+    <h1 class="mb-3">Ansök om förmån</h1>
+    @if (benefitId.HasValue)
+    {
+        <p class="text-muted fs-5 mb-2">Förmån #@benefitId</p>
+    }
+    <p class="text-muted fs-5 mb-4 mx-auto" style="max-width: 480px;">
+        Ansökningsfunktionen kopplas mot <strong>ApplicationService</strong> och är under uppbyggnad.
+    </p>
+    <span class="badge bg-warning text-dark fs-6 px-3 py-2">Kommer snart</span>
+</div>
