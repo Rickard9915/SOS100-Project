@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOS100-T7-BenefitsPortal", "SOS100-T7-BenefitsPortal\SOS100-T7-BenefitsPortal.csproj", "{A2E8A647-6EC6-4D59-8134-CF973814DAA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenfitsPortal-Api", "BenfitsPortal-Api\BenfitsPortal-Api.csproj", "{81AAE71B-F24A-483E-BCEB-2CA760F7C176}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenfitsPortalService", "BenfitsPortalService\BenfitsPortalService.csproj", "{81AAE71B-F24A-483E-BCEB-2CA760F7C176}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
