@@ -1,0 +1,6 @@
+@SOS100_NotificationService_HostAddress = http://localhost:5008
+
+GET {{SOS100_NotificationService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
