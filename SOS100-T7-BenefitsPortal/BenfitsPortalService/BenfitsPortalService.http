@@ -3,4 +3,3 @@
 GET {{BenfitsPortal_Api_HostAddress}}/weatherforecast/
 Accept: application/json
 
-###
