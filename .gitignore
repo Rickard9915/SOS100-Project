@@ -7,4 +7,6 @@ riderModule.iml
 # Secrets
 appsettings.json
 appsettings.*.json
-!appsettings.example.json
+!appsettings.example.jsonBenefitsService/benefits.db
+.DS_Store
+.idea/

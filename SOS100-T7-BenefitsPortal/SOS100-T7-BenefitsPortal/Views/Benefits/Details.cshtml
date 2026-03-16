@@ -29,8 +29,12 @@
             <dd class="col-sm-8">@(Model.CategoryName is { Length: > 0 } name ? name : "-")</dd>
         </dl>
     </div>
-    <div class="card-footer bg-transparent d-flex gap-2">
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Redigera</a>
-        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Ta bort</a>
+    <div class="card-footer bg-transparent d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <a asp-controller="Applications" asp-action="Create" asp-route-benefitId="@Model.Id"
+           class="btn btn-primary btn-lg">Ansök om förmån</a>
+        <div class="d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Redigera</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Ta bort</a>
+        </div>
     </div>
 </div>

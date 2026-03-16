@@ -19,10 +19,26 @@
 }
 else
 {
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="row g-3 mb-4">
+        <div class="col-md-7">
+            <input id="benefit-search" type="text" class="form-control" placeholder="Sök på titel..." />
+        </div>
+        <div class="col-md-5">
+            <select id="category-filter" class="form-select">
+                <option value="">Alla kategorier</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="no-results" class="alert alert-info d-none">Inga förmåner matchar sökningen.</div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="benefits-grid">
         @foreach (var benefit in Model)
         {
-            <div class="col">
+            <div class="col benefit-card"
+                 data-title="@benefit.Title.ToLower()"
+                 data-category-id="@benefit.CategoryId"
+                 data-category-name="@benefit.CategoryName">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start mb-2">
@@ -47,4 +63,46 @@ else
             </div>
         }
     </div>
+}
+
+@section Scripts {
+<script>
+    (function () {
+        const searchInput = document.getElementById('benefit-search');
+        const categoryFilter = document.getElementById('category-filter');
+        const cards = document.querySelectorAll('.benefit-card');
+        const noResults = document.getElementById('no-results');
+
+        // Populate category dropdown from card data
+        const seen = new Set();
+        cards.forEach(card => {
+            const id = card.dataset.categoryId;
+            const name = card.dataset.categoryName;
+            if (id && name && !seen.has(id)) {
+                seen.add(id);
+                const opt = document.createElement('option');
+                opt.value = id;
+                opt.textContent = name;
+                categoryFilter.appendChild(opt);
+            }
+        });
+
+        function filter() {
+            const search = searchInput.value.toLowerCase();
+            const catId = categoryFilter.value;
+            let visible = 0;
+            cards.forEach(card => {
+                const matchTitle = card.dataset.title.includes(search);
+                const matchCat = !catId || card.dataset.categoryId === catId;
+                const show = matchTitle && matchCat;
+                card.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+            noResults.classList.toggle('d-none', visible > 0);
+        }
+
+        searchInput.addEventListener('input', filter);
+        categoryFilter.addEventListener('change', filter);
+    })();
+</script>
 }
