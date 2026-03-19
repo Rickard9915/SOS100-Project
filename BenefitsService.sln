@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenefitsService", "Benefits
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationService", "ApplicationService\ApplicationService.csproj", "{2B8B9122-8391-4790-83BC-066FFBEC4AE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "UserService\UserService.csproj", "{CABF628A-66C4-4ECF-A893-9C1BDF329D34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{2B8B9122-8391-4790-83BC-066FFBEC4AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B8B9122-8391-4790-83BC-066FFBEC4AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B8B9122-8391-4790-83BC-066FFBEC4AE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CABF628A-66C4-4ECF-A893-9C1BDF329D34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CABF628A-66C4-4ECF-A893-9C1BDF329D34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CABF628A-66C4-4ECF-A893-9C1BDF329D34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CABF628A-66C4-4ECF-A893-9C1BDF329D34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
