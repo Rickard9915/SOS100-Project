@@ -1,10 +1,14 @@
-﻿namespace ApplicationService.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace ApplicationService.Models;
 
 public class ApplicationReview
 {
     public int Id { get; set; }
 
     public int ApplicationId { get; set; }
+
+    [JsonIgnore]
     public Application? Application { get; set; }
 
     public string ReviewedBy { get; set; } = string.Empty;

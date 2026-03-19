@@ -21,7 +21,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Tillfälligt borttagen för lokal testning mellan frontend och API
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

@@ -1,4 +1,5 @@
 ﻿using ApplicationService.Data;
+using ApplicationService.Dtos;
 using ApplicationService.Filters;
 using ApplicationService.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ public class ApplicationsController(AppDbContext db) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Application application)
+    public async Task<IActionResult> Create([FromBody] Application application)
     {
         application.CreatedAt = DateTime.UtcNow;
         db.Applications.Add(application);
@@ -41,7 +42,7 @@ public class ApplicationsController(AppDbContext db) : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, Application updatedApplication)
+    public async Task<IActionResult> Update(int id, [FromBody] Application updatedApplication)
     {
         var application = await db.Applications.FindAsync(id);
         if (application is null)
@@ -70,22 +71,37 @@ public class ApplicationsController(AppDbContext db) : ControllerBase
 
     [ServiceFilter(typeof(ApiKeyFilter))]
     [HttpPost("{id}/review")]
-    public async Task<IActionResult> ReviewApplication(int id, ApplicationReview review)
+    public async Task<IActionResult> ReviewApplication(int id, [FromBody] ReviewApplicationDto reviewDto)
     {
         var application = await db.Applications.FindAsync(id);
 
         if (application == null)
             return NotFound();
 
-        review.ApplicationId = id;
-        review.ReviewedAt = DateTime.UtcNow;
+        var review = new ApplicationReview
+        {
+            ApplicationId = id,
+            ReviewedBy = reviewDto.ReviewedBy,
+            Comment = reviewDto.Comment,
+            Decision = reviewDto.Decision,
+            ReviewedAt = DateTime.UtcNow
+        };
 
         db.ApplicationReviews.Add(review);
 
-        application.Status = review.Decision;
+        application.Status = reviewDto.Decision;
 
         await db.SaveChangesAsync();
 
-        return Ok(review);
+        return Ok(new
+        {
+            message = "Review saved successfully",
+            applicationId = id,
+            status = application.Status,
+            reviewedBy = review.ReviewedBy,
+            comment = review.Comment,
+            decision = review.Decision,
+            reviewedAt = review.ReviewedAt
+        });
     }
 }

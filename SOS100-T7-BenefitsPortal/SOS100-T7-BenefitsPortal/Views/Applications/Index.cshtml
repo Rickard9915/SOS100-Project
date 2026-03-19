@@ -1,20 +1,41 @@
+@model List<SOS100_T7_BenefitsPortal.Services.ApplicationDto>
+
 @{
     ViewData["Title"] = "Ansökningar";
 }
 
-<div class="text-center py-5">
-    <div class="mb-4">
-        <span style="font-size: 4rem; line-height: 1;">&#128203;</span>
-    </div>
-    <h1 class="mb-3">Ansökningar</h1>
-    <p class="text-muted fs-5 mb-4 mx-auto" style="max-width: 480px;">
-        Här kommer du kunna skicka in och följa upp ansökningar om förmåner.
-        Sidan kopplas mot <strong>ApplicationService</strong> och är under uppbyggnad.
-    </p>
-    <span class="badge bg-warning text-dark fs-6 px-3 py-2">Kommer snart</span>
-    <div class="mt-4">
-        <a asp-controller="Benefits" asp-action="Index" class="btn btn-outline-secondary">
-            &larr; Tillbaka till förmåner
-        </a>
-    </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Ansökningar</h1>
+    <a asp-action="Create" class="btn btn-primary">Ny ansökan</a>
 </div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Det finns inga ansökningar ännu.
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Anställd</th>
+            <th>Förmån-ID</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var application in Model)
+        {
+            <tr>
+                <td>@application.Id</td>
+                <td>@application.EmployeeName</td>
+                <td>@application.BenefitId</td>
+                <td>@application.Status</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
