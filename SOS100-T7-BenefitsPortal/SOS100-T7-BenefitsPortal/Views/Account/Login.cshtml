@@ -12,7 +12,7 @@
 
         <div class="card shadow-sm">
             <div class="card-body p-4">
-                <form asp-controller="Home" asp-action="Index" method="get">
+                <form asp-controller="Account" asp-action="Login" method="post">
                     <div class="mb-3">
                         <label for="email" class="form-label">E-postadress</label>
                         <input type="email" id="email" name="email" class="form-control"
@@ -31,6 +31,10 @@
             </div>
         </div>
 
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger mt-3">@ViewBag.Error</div>
+        }
         <p class="text-center text-muted small mt-3">
             Inloggning kopplas till <strong>UserService</strong>
         </p>

@@ -7,19 +7,19 @@ namespace BenfitsPortal_Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ReportsController(IHttpClientFactory httpClientFactory) : ControllerBase
+public class ReportsController(IHttpClientFactory httpClientFactory, IConfiguration configuration) : ControllerBase
 {
+    private string BenefitsUrl => configuration["ServiceUrls:BenefitsService"]!;
+    private string ApplicationsUrl => configuration["ServiceUrls:ApplicationService"]!;
+
     // Statistik per förmån: antal ansökningar, godkända, avslagna, total kostnad
     [HttpGet("benefits")]
     public async Task<IActionResult> GetBenefitReport()
     {
         var http = httpClientFactory.CreateClient();
 
-        var benefits = await http.GetFromJsonAsync<List<BenefitDto>>(
-            "http://localhost:5062/api/benefits") ?? [];
-
-        var applications = await http.GetFromJsonAsync<List<ApplicationDto>>(
-            "http://localhost:5078/api/applications") ?? [];
+        var benefits = await http.GetFromJsonAsync<List<BenefitDto>>(BenefitsUrl) ?? [];
+        var applications = await http.GetFromJsonAsync<List<ApplicationDto>>(ApplicationsUrl) ?? [];
 
         var report = benefits.Select(b =>
         {
@@ -40,18 +40,15 @@ public class ReportsController(IHttpClientFactory httpClientFactory) : Controlle
 
         return Ok(report);
     }
-    
+
     // Statistik per period (månad): antal ansökningar och kostnad per månad
     [HttpGet("applications")]
     public async Task<IActionResult> GetPeriodReport()
     {
         var http = httpClientFactory.CreateClient();
 
-        var benefits = await http.GetFromJsonAsync<List<BenefitDto>>(
-            "http://localhost:5062/api/benefits") ?? [];
-
-        var applications = await http.GetFromJsonAsync<List<ApplicationDto>>(
-            "http://localhost:5078/api/applications") ?? [];
+        var benefits = await http.GetFromJsonAsync<List<BenefitDto>>(BenefitsUrl) ?? [];
+        var applications = await http.GetFromJsonAsync<List<ApplicationDto>>(ApplicationsUrl) ?? [];
 
         var benefitValues = benefits.ToDictionary(b => b.Id, b => b.Value);
 
@@ -74,7 +71,7 @@ public class ReportsController(IHttpClientFactory httpClientFactory) : Controlle
 
         return Ok(report);
     }
-    
+
     // Exporterar ansökningar som CSV-fil
     [HttpGet("export")]
     public async Task<IActionResult> ExportCsv(
@@ -84,11 +81,8 @@ public class ReportsController(IHttpClientFactory httpClientFactory) : Controlle
     {
         var http = httpClientFactory.CreateClient();
 
-        var benefits = await http.GetFromJsonAsync<List<BenefitDto>>(
-            "http://localhost:5062/api/benefits") ?? [];
-
-        var applications = await http.GetFromJsonAsync<List<ApplicationDto>>(
-            "http://localhost:5078/api/applications") ?? [];
+        var benefits = await http.GetFromJsonAsync<List<BenefitDto>>(BenefitsUrl) ?? [];
+        var applications = await http.GetFromJsonAsync<List<ApplicationDto>>(ApplicationsUrl) ?? [];
 
         var benefitMap = benefits.ToDictionary(b => b.Id);
 

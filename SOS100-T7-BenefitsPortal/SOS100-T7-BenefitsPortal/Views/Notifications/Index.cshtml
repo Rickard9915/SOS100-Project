@@ -1,20 +1,39 @@
+@using SOS100_T7_BenefitsPortal.Services
+@model List<NotificationDto>
 @{
     ViewData["Title"] = "Meddelanden";
 }
 
-<div class="text-center py-5">
-    <div class="mb-4">
-        <span style="font-size: 4rem; line-height: 1;">&#128276;</span>
+<h1 class="mb-4">Meddelanden</h1>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Inga meddelanden att visa.</p>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var n in Model)
+        {
+            <div class="list-group-item @(n.IsRead ? "" : "list-group-item-warning")">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="mb-1">@n.Message</p>
+                        <small class="text-muted">@n.CreatedAt.ToString("yyyy-MM-dd HH:mm") &mdash; Status: @n.Status</small>
+                    </div>
+                    @if (!n.IsRead)
+                    {
+                        <form asp-action="MarkAsRead" method="post">
+                            <input type="hidden" name="id" value="@n.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-secondary">Markera som läst</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
     </div>
-    <h1 class="mb-3">Meddelanden</h1>
-    <p class="text-muted fs-5 mb-4 mx-auto" style="max-width: 480px;">
-        Här kommer du se notiser och kommunikation kring dina förmåner och ansökningar.
-        Sidan kopplas mot <strong>NotificationService</strong> och är under uppbyggnad.
-    </p>
-    <span class="badge bg-warning text-dark fs-6 px-3 py-2">Kommer snart</span>
-    <div class="mt-4">
-        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
-            &larr; Tillbaka till startsidan
-        </a>
-    </div>
+}
+
+<div class="mt-4">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">&larr; Tillbaka</a>
 </div>
