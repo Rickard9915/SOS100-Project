@@ -4,7 +4,7 @@ using SOS100_T7_BenefitsPortal.Services;
 
 namespace SOS100_T7_BenefitsPortal.Controllers;
 
-[Authorize]
+[Authorize(Roles = "HR,Admin,Finance")]
 public class ReportsController : Controller
 {
     private readonly ReportService _reportService;

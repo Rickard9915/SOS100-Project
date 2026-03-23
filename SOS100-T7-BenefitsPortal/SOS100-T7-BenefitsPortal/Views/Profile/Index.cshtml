@@ -1,20 +1,54 @@
+@using System.Security.Claims
 @{
     ViewData["Title"] = "Min profil";
+    var name  = User.FindFirst(ClaimTypes.Name)?.Value ?? "Okänd";
+    var email = User.FindFirst(ClaimTypes.Email)?.Value ?? "–";
+    var role  = User.FindFirst(ClaimTypes.Role)?.Value ?? "–";
+    var userId = User.FindFirst("UserId")?.Value ?? "–";
+    var initials = name.Length > 0 ? name.Substring(0, 1).ToUpper() : "?";
 }
 
-<div class="text-center py-5">
-    <div class="mb-4">
-        <span style="font-size: 4rem; line-height: 1;">&#128100;</span>
+<div class="py-4" style="max-width: 600px; margin: 0 auto;">
+
+    <!-- Avatar + namn -->
+    <div class="text-center mb-4">
+        <div class="mx-auto mb-3 d-flex align-items-center justify-content-center"
+             style="width: 80px; height: 80px; border-radius: 50%;
+                    background-color: var(--vivid-tangerine); color: white;
+                    font-size: 2rem; font-weight: 700;">
+            @initials
+        </div>
+        <h1 class="page-title mb-1">@name</h1>
+        <span class="badge role-badge @role.ToLower() px-3 py-2" style="font-size: 0.85rem;">@role</span>
     </div>
-    <h1 class="mb-3">Min profil</h1>
-    <p class="text-muted fs-5 mb-4 mx-auto" style="max-width: 480px;">
-        Här kommer du kunna hantera dina personuppgifter och kontoinställningar.
-        Sidan kopplas mot <strong>UserService</strong> och är under uppbyggnad.
-    </p>
-    <span class="badge bg-warning text-dark fs-6 px-3 py-2">Kommer snart</span>
-    <div class="mt-4">
-        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
-            &larr; Tillbaka till startsidan
+
+    <!-- Info-kort -->
+    <div class="card shadow-sm" style="border-color: rgba(0,48,73,0.15); background: white;">
+        <div class="card-body p-0">
+            <div class="d-flex align-items-center p-3" style="border-bottom: 1px solid rgba(0,48,73,0.08);">
+                <span style="width: 120px; color: rgba(0,48,73,0.5); font-size: 0.85rem;">NAMN</span>
+                <span style="color: var(--deep-space-blue); font-weight: 500;">@name</span>
+            </div>
+            <div class="d-flex align-items-center p-3" style="border-bottom: 1px solid rgba(0,48,73,0.08);">
+                <span style="width: 120px; color: rgba(0,48,73,0.5); font-size: 0.85rem;">E-POST</span>
+                <span style="color: var(--deep-space-blue); font-weight: 500;">@email</span>
+            </div>
+            <div class="d-flex align-items-center p-3" style="border-bottom: 1px solid rgba(0,48,73,0.08);">
+                <span style="width: 120px; color: rgba(0,48,73,0.5); font-size: 0.85rem;">ROLL</span>
+                <span class="badge role-badge @role.ToLower()">@role</span>
+            </div>
+            <div class="d-flex align-items-center p-3">
+                <span style="width: 120px; color: rgba(0,48,73,0.5); font-size: 0.85rem;">ANVÄNDAR-ID</span>
+                <span style="color: var(--deep-space-blue); font-weight: 500;">#@userId</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logga ut -->
+    <div class="mt-4 text-center">
+        <a asp-controller="Account" asp-action="Logout" class="btn btn-portal px-4">
+            Logga ut
         </a>
     </div>
+
 </div>

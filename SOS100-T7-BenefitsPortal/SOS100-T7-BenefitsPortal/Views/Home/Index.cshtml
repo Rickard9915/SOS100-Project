@@ -1,70 +1,78 @@
-﻿@{
+@using System.Security.Claims
+@{
     ViewData["Title"] = "Startsida";
+    var role = User.FindFirst(ClaimTypes.Role)?.Value ?? "";
+    var canSeeReports = role == "HR" || role == "Admin" || role == "Finance";
 }
 
 <div class="py-4">
-    <div class="p-5 mb-5 text-white rounded-3" style="background-color: #2E7D32;">
+    <div class="p-5 mb-5 rounded-3" style="background-color: var(--deep-space-blue); color: var(--vanilla-custard);">
         <h1 class="display-5 fw-bold">Välkommen till Medarbetarförmånsportalen</h1>
-        <p class="col-md-8 fs-5 mt-3">Här hittar du och hanterar alla dina förmåner, ansökningar och meddelanden på ett och samma ställe.</p>
-        <a class="btn btn-light btn-lg" asp-controller="Benefits" asp-action="Index">Se förmåner</a>
+        <p class="col-md-8 fs-5 mt-3" style="color: rgba(234,226,183,0.85);">Här hittar du och hanterar alla dina förmåner, ansökningar och meddelanden på ett och samma ställe.</p>
+        <a class="btn btn-lg fw-semibold" asp-controller="Benefits" asp-action="Index"
+           style="background-color: var(--sunflower-gold); color: var(--deep-space-blue);">Se förmåner</a>
     </div>
 
-    <h2 class="mb-4">Tjänster</h2>
+    <h2 class="mb-4 page-title">Tjänster</h2>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <div class="col">
-            <div class="card h-100 text-white" style="background-color: #2E7D32;">
+            <div class="card h-100" style="background-color: var(--deep-space-blue); color: var(--vanilla-custard); border: none;">
                 <div class="card-body">
                     <h5 class="card-title">Förmåner</h5>
-                    <p class="card-text" style="color: rgba(255,255,255,0.85);">Bläddra bland tillgängliga förmåner och ta del av det vi erbjuder.</p>
+                    <p class="card-text" style="color: rgba(234,226,183,0.8);">Bläddra bland tillgängliga förmåner och ta del av det vi erbjuder.</p>
                 </div>
-                <div class="card-footer" style="background-color: rgba(0,0,0,0.12); border-color: rgba(255,255,255,0.2);">
-                    <a asp-controller="Benefits" asp-action="Index" class="btn btn-light w-100 fw-semibold" style="color: #2E7D32;">Öppna</a>
+                <div class="card-footer" style="background-color: rgba(0,0,0,0.15); border-color: rgba(234,226,183,0.15);">
+                    <a asp-controller="Benefits" asp-action="Index" class="btn w-100 fw-semibold"
+                       style="background-color: var(--sunflower-gold); color: var(--deep-space-blue);">Öppna</a>
                 </div>
             </div>
         </div>
         <div class="col">
-            <div class="card h-100 text-white" style="background-color: #2E7D32;">
+            <div class="card h-100" style="background-color: var(--vivid-tangerine); color: white; border: none;">
                 <div class="card-body">
                     <h5 class="card-title">Ansökningar</h5>
                     <p class="card-text" style="color: rgba(255,255,255,0.85);">Hantera dina ansökningar om förmåner och följ deras status.</p>
                 </div>
-                <div class="card-footer" style="background-color: rgba(0,0,0,0.12); border-color: rgba(255,255,255,0.2);">
+                <div class="card-footer" style="background-color: rgba(0,0,0,0.1); border-color: rgba(255,255,255,0.2);">
                     <a asp-controller="Applications" asp-action="Index" class="btn btn-outline-light w-100">Öppna</a>
                 </div>
             </div>
         </div>
         <div class="col">
-            <div class="card h-100 text-white" style="background-color: #2E7D32;">
+            <div class="card h-100" style="background-color: var(--flag-red); color: white; border: none;">
                 <div class="card-body">
                     <h5 class="card-title">Meddelanden</h5>
                     <p class="card-text" style="color: rgba(255,255,255,0.85);">Läs notiser och kommunikation kring dina förmåner.</p>
                 </div>
-                <div class="card-footer" style="background-color: rgba(0,0,0,0.12); border-color: rgba(255,255,255,0.2);">
+                <div class="card-footer" style="background-color: rgba(0,0,0,0.1); border-color: rgba(255,255,255,0.2);">
                     <a asp-controller="Notifications" asp-action="Index" class="btn btn-outline-light w-100">Öppna</a>
                 </div>
             </div>
         </div>
         <div class="col">
-            <div class="card h-100 text-white" style="background-color: #2E7D32;">
+            <div class="card h-100" style="background-color: var(--deep-space-blue); color: var(--vanilla-custard); border: none;">
                 <div class="card-body">
                     <h5 class="card-title">Min profil</h5>
-                    <p class="card-text" style="color: rgba(255,255,255,0.85);">Hantera dina uppgifter och inställningar.</p>
+                    <p class="card-text" style="color: rgba(234,226,183,0.8);">Hantera dina uppgifter och inställningar.</p>
                 </div>
-                <div class="card-footer" style="background-color: rgba(0,0,0,0.12); border-color: rgba(255,255,255,0.2);">
+                <div class="card-footer" style="background-color: rgba(0,0,0,0.15); border-color: rgba(234,226,183,0.15);">
                     <a asp-controller="Profile" asp-action="Index" class="btn btn-outline-light w-100">Öppna</a>
                 </div>
             </div>
         </div>
+        @if (canSeeReports)
+        {
         <div class="col">
-            <div class="card h-100 text-white" style="background-color: #2E7D32;">
+            <div class="card h-100" style="background-color: var(--vivid-tangerine); color: white; border: none;">
                 <div class="card-body">
                     <h5 class="card-title">Rapporter</h5>
                     <p class="card-text" style="color: rgba(255,255,255,0.85);">Analysera nyttjande och kostnader för förmånsprogrammet.</p>
                 </div>
-                <div class="card-footer" style="background-color: rgba(0,0,0,0.12); border-color: rgba(255,255,255,0.2);">
+                <div class="card-footer" style="background-color: rgba(0,0,0,0.1); border-color: rgba(255,255,255,0.2);">
                     <a asp-controller="Reports" asp-action="Index" class="btn btn-outline-light w-100">Öppna</a>
                 </div>
             </div>
         </div>
+        }
     </div>
 </div>

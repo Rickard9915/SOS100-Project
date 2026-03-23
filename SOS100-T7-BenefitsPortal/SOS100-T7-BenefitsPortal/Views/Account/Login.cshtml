@@ -6,25 +6,27 @@
     <div class="w-100" style="max-width: 400px;">
 
         <div class="text-center mb-4">
-            <div class="fw-bold fs-4 mb-1" style="color: #2E7D32;">Medarbetarförmånsportal</div>
-            <h2 class="h4 text-dark">Logga in</h2>
+            <div class="fw-bold fs-4 mb-1" style="color: var(--deep-space-blue);">Medarbetarförmånsportal</div>
+            <h2 class="h4" style="color: var(--deep-space-blue);">Logga in</h2>
         </div>
 
-        <div class="card shadow-sm">
+        <div class="card shadow-sm" style="border-color: rgba(0,48,73,0.15); background-color: white;">
             <div class="card-body p-4">
                 <form asp-controller="Account" asp-action="Login" method="post">
                     <div class="mb-3">
-                        <label for="email" class="form-label">E-postadress</label>
+                        <label for="email" class="form-label" style="color: var(--deep-space-blue); font-weight: 500;">E-postadress</label>
                         <input type="email" id="email" name="email" class="form-control"
-                               placeholder="namn@foretag.se" autocomplete="email" />
+                               placeholder="namn@foretag.se" autocomplete="email"
+                               style="border-color: rgba(0,48,73,0.3);" />
                     </div>
                     <div class="mb-4">
-                        <label for="password" class="form-label">Lösenord</label>
+                        <label for="password" class="form-label" style="color: var(--deep-space-blue); font-weight: 500;">Lösenord</label>
                         <input type="password" id="password" name="password" class="form-control"
-                               placeholder="••••••••" autocomplete="current-password" />
+                               placeholder="••••••••" autocomplete="current-password"
+                               style="border-color: rgba(0,48,73,0.3);" />
                     </div>
-                    <button type="submit" class="btn w-100 text-white fw-semibold"
-                            style="background-color: #2E7D32;">
+                    <button type="submit" class="btn w-100 fw-semibold"
+                            style="background-color: var(--flag-red); color: white;">
                         Logga in
                     </button>
                 </form>
@@ -33,9 +35,11 @@
 
         @if (ViewBag.Error != null)
         {
-            <div class="alert alert-danger mt-3">@ViewBag.Error</div>
+            <div class="alert mt-3" style="background-color: var(--flag-red); color: white; border: none;">
+                @ViewBag.Error
+            </div>
         }
-        <p class="text-center text-muted small mt-3">
+        <p class="text-center small mt-3" style="color: var(--deep-space-blue); opacity: 0.6;">
             Inloggning kopplas till <strong>UserService</strong>
         </p>
 

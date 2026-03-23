@@ -1,36 +1,50 @@
+@using System.Security.Claims
 @model List<SOS100_T7_BenefitsPortal.Models.BenefitViewModel>
 
 @{
     ViewData["Title"] = "Förmåner";
+    var role = User.FindFirst(ClaimTypes.Role)?.Value ?? "";
+    var canEdit = role == "HR" || role == "Admin";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="mb-0">Förmåner</h1>
+    <h1 class="mb-0 page-title">Förmåner</h1>
     <div class="d-flex gap-2 align-items-center">
         <span class="text-muted me-2">@Model.Count förmåner tillgängliga</span>
-        <a asp-action="Create" class="btn btn-sm btn-primary">+ Ny förmån</a>
-        <a asp-controller="Categories" asp-action="Index" class="btn btn-sm btn-outline-secondary">Hantera kategorier</a>
+        @if (canEdit)
+        {
+            <a asp-action="Create" class="btn btn-sm btn-portal">+ Ny förmån</a>
+            <a asp-controller="Categories" asp-action="Index" class="btn btn-sm"
+               style="background-color: var(--deep-space-blue); color: var(--vanilla-custard);">Hantera kategorier</a>
+        }
     </div>
 </div>
 
 @if (Model.Count == 0)
 {
-    <div class="alert alert-info">Inga förmåner hittades.</div>
+    <div class="alert" style="background-color: var(--sunflower-gold); color: var(--deep-space-blue); border: none;">
+        Inga förmåner hittades.
+    </div>
 }
 else
 {
     <div class="row g-3 mb-4">
         <div class="col-md-7">
-            <input id="benefit-search" type="text" class="form-control" placeholder="Sök på titel..." />
+            <input id="benefit-search" type="text" class="form-control" placeholder="Sök på titel..."
+                   style="border-color: rgba(0,48,73,0.3); background-color: white;" />
         </div>
         <div class="col-md-5">
-            <select id="category-filter" class="form-select">
+            <select id="category-filter" class="form-select"
+                    style="border-color: rgba(0,48,73,0.3); background-color: white;">
                 <option value="">Alla kategorier</option>
             </select>
         </div>
     </div>
 
-    <div id="no-results" class="alert alert-info d-none">Inga förmåner matchar sökningen.</div>
+    <div id="no-results" class="alert d-none"
+         style="background-color: var(--sunflower-gold); color: var(--deep-space-blue); border: none;">
+        Inga förmåner matchar sökningen.
+    </div>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="benefits-grid">
         @foreach (var benefit in Model)
@@ -39,24 +53,34 @@ else
                  data-title="@benefit.Title.ToLower()"
                  data-category-id="@benefit.CategoryId"
                  data-category-name="@benefit.CategoryName">
-                <div class="card h-100 shadow-sm">
+                <div class="card h-100 shadow-sm" style="border-color: rgba(0,48,73,0.15);">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h5 class="card-title mb-0">@benefit.Title</h5>
+                            <h5 class="card-title mb-0" style="color: var(--deep-space-blue);">@benefit.Title</h5>
                             @if (benefit.Category is not null)
                             {
                                 <a asp-action="ByCategory" asp-route-id="@benefit.Category.Id"
-                                   class="badge bg-secondary text-decoration-none ms-2">@benefit.Category.Name</a>
+                                   class="badge text-decoration-none ms-2"
+                                   style="background-color: var(--sunflower-gold); color: var(--deep-space-blue);">
+                                    @benefit.Category.Name
+                                </a>
                             }
                         </div>
                         <p class="card-text text-muted">@benefit.Description</p>
                     </div>
-                    <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
-                        <span class="fs-5 fw-semibold text-success">@benefit.Value.ToString("N0") kr</span>
+                    <div class="card-footer bg-transparent d-flex justify-content-between align-items-center"
+                         style="border-color: rgba(0,48,73,0.1);">
+                        <span class="fs-5 fw-semibold" style="color: var(--deep-space-blue);">@benefit.Value.ToString("N0") kr</span>
                         <div class="d-flex gap-1">
-                            <a asp-action="Details" asp-route-id="@benefit.Id" class="btn btn-sm btn-outline-primary">Detaljer</a>
-                            <a asp-action="Edit" asp-route-id="@benefit.Id" class="btn btn-sm btn-outline-secondary">Redigera</a>
-                            <a asp-action="Delete" asp-route-id="@benefit.Id" class="btn btn-sm btn-outline-danger">Ta bort</a>
+                            <a asp-action="Details" asp-route-id="@benefit.Id"
+                               class="btn btn-sm" style="border: 1px solid var(--deep-space-blue); color: var(--deep-space-blue);">Detaljer</a>
+                            @if (canEdit)
+                            {
+                                <a asp-action="Edit" asp-route-id="@benefit.Id"
+                                   class="btn btn-sm" style="border: 1px solid var(--vivid-tangerine); color: var(--vivid-tangerine);">Redigera</a>
+                                <a asp-action="Delete" asp-route-id="@benefit.Id"
+                                   class="btn btn-sm" style="border: 1px solid var(--flag-red); color: var(--flag-red);">Ta bort</a>
+                            }
                         </div>
                     </div>
                 </div>
