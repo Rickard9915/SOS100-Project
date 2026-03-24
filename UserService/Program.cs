@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UserService.Data;
+using UserService.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,5 +26,26 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<UserDbContext>();
     db.Database.EnsureCreated();
+
+    if (!db.Users.Any())
+    {
+        db.Users.AddRange(
+            new User
+            {
+                Name = "Anställd Test",
+                Email = "employee@test.com",
+                PasswordHash = "Test123!",
+                Role = "Employee"
+            },
+            new User
+            {
+                Name = "HR Test",
+                Email = "hr@test.com",
+                PasswordHash = "Test123!",
+                Role = "HR"
+            }
+        );
+        db.SaveChanges();
+    }
 }
 app.Run();
