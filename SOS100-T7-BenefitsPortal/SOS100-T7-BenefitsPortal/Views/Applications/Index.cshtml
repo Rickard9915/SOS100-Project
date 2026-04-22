@@ -1,41 +1,90 @@
+@using System.Security.Claims
 @model List<SOS100_T7_BenefitsPortal.Services.ApplicationDto>
 
 @{
     ViewData["Title"] = "Ansökningar";
+    var role = User.FindFirst(ClaimTypes.Role)?.Value ?? "";
+    var isHR = role == "HR" || role == "Admin";
 }
 
+<!--suppress ALL -->
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Ansökningar</h1>
-    <a asp-action="Create" class="btn btn-primary">Ny ansökan</a>
+    <h1 class="page-title">Ansökningar</h1>
+    @if (!isHR)
+    {
+        <a asp-action="Create" class="btn btn-portal">Ny ansökan</a>
+    }
 </div>
 
 @if (!Model.Any())
 {
-    <div class="alert alert-info">
+    <div class="alert" style="background-color: var(--sunflower-gold); color: var(--deep-space-blue); border: none;">
         Det finns inga ansökningar ännu.
     </div>
 }
 else
 {
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Anställd</th>
-            <th>Förmån-ID</th>
-            <th>Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var application in Model)
-        {
-            <tr>
-                <td>@application.Id</td>
-                <td>@application.EmployeeName</td>
-                <td>@application.BenefitId</td>
-                <td>@application.Status</td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table" style="background-color: white; border-radius: 10px; overflow: hidden;">
+            <thead style="background-color: var(--deep-space-blue); color: var(--vanilla-custard);">
+                <tr>
+                    <th>ID</th>
+                    <th>Anställd</th>
+                    <th>Förmån-ID</th>
+                    <th>Status</th>
+                    @if (isHR)
+                    {
+                        <th>Åtgärd</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var application in Model)
+            {
+                var status = application.Status?.ToLower();
+                var badgeClass = status switch {
+                    "approved" or "godkänd" => "badge-approved",
+                    "rejected" or "avslagen" => "badge-rejected",
+                    _ => "badge-pending"
+                };
+                <tr style="border-color: rgba(0,48,73,0.08);">
+                    <td style="color: var(--deep-space-blue);">@application.Id</td>
+                    <td style="color: var(--deep-space-blue);">@application.EmployeeName</td>
+                    <td style="color: var(--deep-space-blue);">@application.BenefitId</td>
+                    <td>
+                        <span class="badge @badgeClass px-2 py-1" style="font-size: 0.8rem;">@application.Status</span>
+                    </td>
+                    @if (isHR)
+                    {
+                        <td>
+                            @if (status == "pending")
+                            {
+                                <form asp-action="Review" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@application.Id" />
+                                    <input type="hidden" name="decision" value="Approved" />
+                                    <button type="submit" class="btn btn-sm me-1"
+                                            style="background-color: var(--deep-space-blue); color: var(--vanilla-custard);">
+                                        Godkänn
+                                    </button>
+                                </form>
+                                <form asp-action="Review" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@application.Id" />
+                                    <input type="hidden" name="decision" value="Rejected" />
+                                    <button type="submit" class="btn btn-sm"
+                                            style="background-color: var(--flag-red); color: white;">
+                                        Avslå
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span style="color: rgba(0,48,73,0.4); font-size: 0.85rem;">Hanterad</span>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
 }

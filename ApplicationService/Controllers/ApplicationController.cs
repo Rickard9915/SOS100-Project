@@ -4,12 +4,13 @@ using ApplicationService.Filters;
 using ApplicationService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Json;
 
 namespace ApplicationService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ApplicationsController(AppDbContext db) : ControllerBase
+public class ApplicationsController(AppDbContext db, IHttpClientFactory httpClientFactory) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAll()
@@ -37,6 +38,16 @@ public class ApplicationsController(AppDbContext db) : ControllerBase
         application.CreatedAt = DateTime.UtcNow;
         db.Applications.Add(application);
         await db.SaveChangesAsync();
+
+        var httpClient = httpClientFactory.CreateClient();
+
+        await httpClient.PostAsJsonAsync("http://localhost:5008/api/Notification", new
+        {
+            userId = application.UserId,
+            applicationId = application.Id,
+            status = "Pending",
+            message = "Din ansökan har skickats in och väntar på granskning"
+        });
 
         return CreatedAtAction(nameof(GetById), new { id = application.Id }, application);
     }
@@ -92,6 +103,18 @@ public class ApplicationsController(AppDbContext db) : ControllerBase
         application.Status = reviewDto.Decision;
 
         await db.SaveChangesAsync();
+
+        var httpClient = httpClientFactory.CreateClient();
+
+        await httpClient.PostAsJsonAsync("http://localhost:5008/api/Notification", new
+        {
+            userId = application.UserId,
+            applicationId = application.Id,
+            status = application.Status,
+            message = application.Status == "Approved"
+                ? "Ansökan godkändes"
+                : "Ansökan avslogs"
+        });
 
         return Ok(new
         {

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SOS100_T7_BenefitsPortal.Services;
 
@@ -35,6 +36,15 @@ public class ApplicationsController : Controller
 
         await _applicationService.CreateApplicationAsync(application);
 
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "HR,Admin")]
+    public async Task<IActionResult> Review(int id, string decision)
+    {
+        var reviewedBy = User.Identity?.Name ?? "HR";
+        await _applicationService.ReviewApplicationAsync(id, decision, reviewedBy);
         return RedirectToAction("Index");
     }
 }

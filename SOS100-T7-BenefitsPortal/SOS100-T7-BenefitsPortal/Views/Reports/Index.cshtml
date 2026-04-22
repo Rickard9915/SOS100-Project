@@ -5,12 +5,12 @@
     var periodReport = ViewBag.PeriodReport as List<PeriodReportItem> ?? new List<PeriodReportItem>();
 }
 
-<h1 class="mb-4">Rapporter</h1>
+<h1 class="mb-4 page-title">Rapporter</h1>
 
-<h2 class="h5 mb-3">Statistik per förmån</h2>
+<h2 class="h5 mb-3" style="color: var(--deep-space-blue);">Statistik per förmån</h2>
 <div class="table-responsive mb-5">
-    <table class="table table-striped">
-        <thead>
+    <table class="table" style="background-color: white; border-radius: 10px; overflow: hidden;">
+        <thead style="background-color: var(--deep-space-blue); color: var(--vanilla-custard);">
             <tr>
                 <th>Förmån</th>
                 <th>Ansökningar</th>
@@ -23,23 +23,25 @@
         <tbody>
             @foreach (var item in benefitReport)
             {
-                <tr>
-                    <td>@item.BenefitName</td>
+                <tr style="border-color: rgba(0,48,73,0.08);">
+                    <td style="color: var(--deep-space-blue); font-weight: 500;">@item.BenefitName</td>
                     <td>@item.TotalApplications</td>
-                    <td>@item.ApprovedCount</td>
-                    <td>@item.RejectedCount</td>
-                    <td>@item.PendingCount</td>
-                    <td>@item.TotalApprovedValue.ToString("C", new System.Globalization.CultureInfo("sv-SE"))</td>
+                    <td><span class="badge badge-approved px-2">@item.ApprovedCount</span></td>
+                    <td><span class="badge badge-rejected px-2">@item.RejectedCount</span></td>
+                    <td><span class="badge badge-pending px-2">@item.PendingCount</span></td>
+                    <td style="color: var(--deep-space-blue); font-weight: 600;">
+                        @item.TotalApprovedValue.ToString("C", new System.Globalization.CultureInfo("sv-SE"))
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
 
-<h2 class="h5 mb-3">Statistik per period</h2>
+<h2 class="h5 mb-3" style="color: var(--deep-space-blue);">Statistik per period</h2>
 <div class="table-responsive mb-4">
-    <table class="table table-striped">
-        <thead>
+    <table class="table" style="background-color: white; border-radius: 10px; overflow: hidden;">
+        <thead style="background-color: var(--vivid-tangerine); color: white;">
             <tr>
                 <th>Period</th>
                 <th>Ansökningar</th>
@@ -51,16 +53,19 @@
         <tbody>
             @foreach (var item in periodReport)
             {
-                <tr>
-                    <td>@item.Period</td>
+                <tr style="border-color: rgba(0,48,73,0.08);">
+                    <td style="color: var(--deep-space-blue); font-weight: 500;">@item.Period</td>
                     <td>@item.TotalApplications</td>
-                    <td>@item.ApprovedCount</td>
-                    <td>@item.RejectedCount</td>
-                    <td>@item.TotalApprovedValue.ToString("C", new System.Globalization.CultureInfo("sv-SE"))</td>
+                    <td><span class="badge badge-approved px-2">@item.ApprovedCount</span></td>
+                    <td><span class="badge badge-rejected px-2">@item.RejectedCount</span></td>
+                    <td style="color: var(--deep-space-blue); font-weight: 600;">
+                        @item.TotalApprovedValue.ToString("C", new System.Globalization.CultureInfo("sv-SE"))
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
 
-<a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">&larr; Tillbaka</a>
+<a asp-controller="Home" asp-action="Index" class="btn"
+   style="border: 1px solid var(--deep-space-blue); color: var(--deep-space-blue);">&larr; Tillbaka</a>

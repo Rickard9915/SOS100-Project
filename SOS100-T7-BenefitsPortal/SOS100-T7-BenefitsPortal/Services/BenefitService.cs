@@ -4,10 +4,9 @@ using SOS100_T7_BenefitsPortal.Models;
 
 namespace SOS100_T7_BenefitsPortal.Services;
 
-public class BenefitService(HttpClient httpClient, IConfiguration config)
+public class BenefitService(HttpClient httpClient)
 {
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
-    private string ApiKey => config["BenefitServiceApiKey"] ?? string.Empty;
 
     public async Task<List<BenefitViewModel>> GetBenefitsAsync()
     {
@@ -36,27 +35,19 @@ public class BenefitService(HttpClient httpClient, IConfiguration config)
 
     public async Task CreateAsync(BenefitFormModel model)
     {
-        var request = new HttpRequestMessage(HttpMethod.Post, "api/benefits");
-        request.Headers.Add("X-Api-Key", ApiKey);
-        request.Content = JsonContent.Create(model);
-        var response = await httpClient.SendAsync(request);
+        var response = await httpClient.PostAsJsonAsync("api/benefits", model);
         response.EnsureSuccessStatusCode();
     }
 
     public async Task UpdateAsync(BenefitFormModel model)
     {
-        var request = new HttpRequestMessage(HttpMethod.Put, $"api/benefits/{model.Id}");
-        request.Headers.Add("X-Api-Key", ApiKey);
-        request.Content = JsonContent.Create(model);
-        var response = await httpClient.SendAsync(request);
+        var response = await httpClient.PutAsJsonAsync($"api/benefits/{model.Id}", model);
         response.EnsureSuccessStatusCode();
     }
 
     public async Task DeleteAsync(int id)
     {
-        var request = new HttpRequestMessage(HttpMethod.Delete, $"api/benefits/{id}");
-        request.Headers.Add("X-Api-Key", ApiKey);
-        var response = await httpClient.SendAsync(request);
+        var response = await httpClient.DeleteAsync($"api/benefits/{id}");
         response.EnsureSuccessStatusCode();
     }
 }

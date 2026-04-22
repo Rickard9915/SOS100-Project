@@ -4,36 +4,44 @@
     ViewData["Title"] = "Meddelanden";
 }
 
-<h1 class="mb-4">Meddelanden</h1>
+<h1 class="mb-4 page-title">Meddelanden</h1>
 
 @if (!Model.Any())
 {
-    <p class="text-muted">Inga meddelanden att visa.</p>
+    <p style="color: var(--deep-space-blue); opacity: 0.6;">Inga meddelanden att visa.</p>
 }
 else
 {
-    <div class="list-group">
+    <div class="d-flex flex-column gap-2">
         @foreach (var n in Model)
         {
-            <div class="list-group-item @(n.IsRead ? "" : "list-group-item-warning")">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <p class="mb-1">@n.Message</p>
-                        <small class="text-muted">@n.CreatedAt.ToString("yyyy-MM-dd HH:mm") &mdash; Status: @n.Status</small>
-                    </div>
-                    @if (!n.IsRead)
-                    {
-                        <form asp-action="MarkAsRead" method="post">
-                            <input type="hidden" name="id" value="@n.Id" />
-                            <button type="submit" class="btn btn-sm btn-outline-secondary">Markera som läst</button>
-                        </form>
-                    }
+            <div class="p-3 rounded-3 d-flex justify-content-between align-items-start"
+                 style="background-color: @(n.IsRead ? "white" : "#fff8e1");
+                        border: 1px solid @(n.IsRead ? "rgba(0,48,73,0.12)" : "var(--sunflower-gold)");">
+                <div>
+                    <p class="mb-1" style="color: var(--deep-space-blue); font-weight: @(n.IsRead ? "400" : "500");">
+                        @n.Message
+                    </p>
+                    <small style="color: rgba(0,48,73,0.55);">
+                        @n.CreatedAt.ToString("yyyy-MM-dd HH:mm") &mdash; Status: @n.Status
+                    </small>
                 </div>
+                @if (!n.IsRead)
+                {
+                    <form asp-action="MarkAsRead" method="post" class="ms-3 flex-shrink-0">
+                        <input type="hidden" name="id" value="@n.Id" />
+                        <button type="submit" class="btn btn-sm"
+                                style="background-color: var(--sunflower-gold); color: var(--deep-space-blue); font-weight: 500;">
+                            Markera som läst
+                        </button>
+                    </form>
+                }
             </div>
         }
     </div>
 }
 
 <div class="mt-4">
-    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">&larr; Tillbaka</a>
+    <a asp-controller="Home" asp-action="Index" class="btn"
+       style="border: 1px solid var(--deep-space-blue); color: var(--deep-space-blue);">&larr; Tillbaka</a>
 </div>
